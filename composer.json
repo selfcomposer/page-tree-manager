@@ -2,7 +2,7 @@
     "name": "selfcomposer/page-tree-manager",
     "type": "library",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "cocur/slugify": "2.1.*",
         "baum/baum": "1.1.*"
     },
@@ -23,7 +23,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "PageTreeManager\\": "src/Selfcomposer"
+            "PageTreeManager\\": "src/PageTreeManager"
         }
     },
     "minimum-stability": "stable"
