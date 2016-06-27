@@ -23,8 +23,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "PageTreeManager\\": "src/PageTreeManager"
+            "SelfComposer\\PageTreeManager\\": "src/PageTreeManager"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SelfComposer\\PageTreeManager\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     },
     "minimum-stability": "stable"
 }
