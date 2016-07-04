@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true"
+         syntaxCheck="false">
+  <testsuites>
+    <testsuite name="generic">
+      <directory>./tests/suites/Generic/</directory>
+    </testsuite>
+    <testsuite name="scoped">
+      <directory>./tests/suites/Scoped/</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

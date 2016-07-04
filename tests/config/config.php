@@ -1,26 +1,10 @@
 <?php
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 /**
  * This file is part of PageTreeManager,
  * a page management solution for Laravel.
  *
+ * @license Apache v2
  * @package SelfComposer\PageTreeManager
  */
 
@@ -31,24 +15,22 @@ return [
     | Pages Table
     |--------------------------------------------------------------------------
     |
-    | This is the pages table used by PageTreeManager to store the tree
+    | This is the trees table used by PageTreeManager to store the tree
     | structure of the pages to the database.
     |
     */
     'pages_table' => 'pages',
-
 
     /*
     |--------------------------------------------------------------------------
     | Slugs Table
     |--------------------------------------------------------------------------
     |
-    | This is the slugs table used by PageTreeManager to store
-    | the multilanguage slugs to the database.
+    | This is the slugs table used by PageTreeManager to store the multilanguage
+    | slugs to the database.
     |
     */
     'slugs_table' => 'slugs',
-
 
     /*
     |--------------------------------------------------------------------------
@@ -58,8 +40,14 @@ return [
     | This is the Page model used by PageTreeManager to create the pages.
     |
     */
-    'page_model' => 'SelfComposer\PageTreeManager\Page',
+    'page_model' => 'SelfComposer\PageTreeManager\Tests\Models\Page',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Page Foreign key on slugs Table
+    |--------------------------------------------------------------------------
+    */
+    'page_foreign_key' => 'page_id',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +66,7 @@ return [
     |
     | By default each unique URL will get an incremental value appended at
     | the end of the slug, in order to ensure uniqueness. You can override
-    | this value by using a function that creates this value for you.
+    | this value by using a function that creates this value for you
     */
    'slug_suffix' => null
 ];

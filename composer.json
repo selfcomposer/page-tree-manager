@@ -22,6 +22,9 @@
             "email": "maurizio.bonani@gmail.com"
         }
     ],
+    "description": "PageTreeManager is a package that aims to easily manage website pages as an ordered tree structure.",
+    "keywords": ["page", "tree"],
+    "homepage": "https://github.com/selfcomposer/page-tree-manager",
     "autoload": {
         "psr-4": {
             "SelfComposer\\PageTreeManager\\": "src/PageTreeManager"
