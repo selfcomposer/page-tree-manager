@@ -14,7 +14,7 @@ PageTreeManager is a package that aims to easily manage website pages as an orde
 In order to install **Laravel 5 PageTreeManager**, just add the following entry to your `composer.json` file:
 
 ```
-"selfcomposer/page-tree-manager": "~0.0.1"
+"selfcomposer/page-tree-manager": "~0.0.2"
 ```
 
 Run `composer install` to install it.
@@ -22,7 +22,7 @@ Run `composer install` to install it.
 Otherwise you can simply run the `composer require` command from your terminal:
 
 ```
-composer require selfcomposer/page-tree-manager:0.0.1
+composer require selfcomposer/page-tree-manager:0.0.2
 ```
 
 Finally in your `config/app.php` you need to register the _service provider_. Just add the following into the `providers` array:
