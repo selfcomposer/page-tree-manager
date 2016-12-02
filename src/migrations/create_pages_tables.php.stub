@@ -36,7 +36,7 @@ class CreatePagesTables extends Migration
         // The table used for the slugs of the pages. It supports multiple languages.
         // Column names may be changes, but they *must* all exist and be modified
         // in the model.
-        Schema::create($config['slugs_table'], function (Blueprint $table)
+        Schema::create($config['slugs_table'], function (Blueprint $table) use ($config)
         {
             $table->increments('id');
             $table->integer('page_id')->unsigned();
