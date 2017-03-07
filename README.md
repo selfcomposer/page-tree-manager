@@ -132,7 +132,7 @@ In addition to those methods, the package provides a few other functions to easi
 
 ### Accessing the pages
 
-* `$page->match($url, $langCode, $scoped)`: returns the page that matches the url, the language code and optional scoped attributes
+* `$page->lookup($url, $langCode, $scoped = [])`: returns the page that matches the url, the language code and optional scoped attributes, passed to a where condition.
 * `$page->getTree()`: dumps the hierarchy tree in the form of a nested collection representing the queried tree. It's a wrapper for `$page->getDescendatnsAndSelf()->toHierarchy()`
 
 ## Scope Support

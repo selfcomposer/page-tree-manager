@@ -20,6 +20,7 @@
 namespace SelfComposer\PageTreeManager;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use SelfComposer\PageTreeManager\PageObserver;
 use SelfComposer\PageTreeManager\Slug;
@@ -82,37 +83,69 @@ abstract class PageNode extends \Baum\Node
 	}
 
 	/**
-	 * Static query scope. Returns a query scope with
-	 * the page that matches the url, the language code
-	 * and the scoped attributes, if any.
-	 *
-	 * @param  Builder $query
-	 * @param  string  $url
-	 * @param  string  $lang_code
-	 * @param  array   $scoped
-	 *
-	 * @return string
+	 * Search a page by its given url, lang code and optional scoped attributes.
+	 * 
+	 * @param  string $url
+	 * @param  string $lang_code
+	 * @param  array  $scoped
+	 * @return PageNode
 	 */
-	public function scopeMatch($query, $url, $lang_code, $scoped = [])
+	public static function lookup($url, $lang_code, $scoped = [])
 	{
 		$slug = new Slug;
 
-		if(starts_with($url, '/'))
-		{
+		if(starts_with($url, '/')) {
 			$url = substr($url, 1, strlen($url));
 		}
 
 		$tokens = explode('/', $url);
 
-		return $query->where($scoped)
-			->whereHas('slugs', function($query) use ($slug, $lang_code, $tokens) {
-			 	$query->where($slug->getLangColumnKey(), $lang_code)
-			 		->whereIn($slug->getSlugColumnKey(), $tokens);
-			})
-			->orderBy($this->getQualifiedDepthColumnName(), 'DESC')
-			->firstOrFail();
+		$root = self::where($scoped)->where('depth', 0)->firstOrFail();
+
+		if(! $root) throw new ModelNotFoundException();
+
+		if(head($tokens) === "") return $root;
+
+		$hierarchy = $root->descendantsAndSelf()->with('slugs')->limitDepth(count($tokens))->get()->toHierarchy();
+
+		if($hierarchy->isEmpty()) throw new ModelNotFoundException();
+
+		return self::reduce($hierarchy, null, $tokens, $lang_code);
 	}
 
+	/**
+	 * Reduces a hiearachy tree to a single page.
+	 * 
+	 * @param  Collection $elements
+	 * @param  integer    $id
+	 * @param  array      $tokens
+	 * @param  string     $lang_code
+	 * @return self
+	 */
+	private static function reduce($elements, $id, $tokens, $lang_code)
+	{
+		// skip if it is the root page
+		if(! is_null($id)) {
+			$token = array_shift($tokens);
+
+			$elements = $elements->filter(function($element, $key) use ($id, $token, $lang_code) {
+				foreach($element->slugs as $slug) {
+					return (
+						($slug->{$slug->getSlugColumnKey()} == $token) &&
+						($slug->{$slug->getLangColumnKey()} == $lang_code) &&
+						($element->{$element->getParentColumnName()} == $id)
+					);
+				}
+			});
+
+			if($elements->isEmpty()) throw new ModelNotFoundException();
+
+			if($elements->first()->children->isEmpty() && empty($tokens)) return $elements->first();
+		}
+		
+		return self::reduce($elements->first()->children, $elements->first()->id, $tokens, $lang_code);
+	}
+	
 	/**
 	 * Build the nested collection which represents the tree.
 	 *
